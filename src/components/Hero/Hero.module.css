@@ -1,0 +1,12 @@
+.hero {
+  height: 38rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero img {
+  width: 110%;
+  height: 100%;
+  object-fit: cover;
+  transform: rotateZ(-5deg) translateX(-3rem)  translateY(-6.5rem);
+}

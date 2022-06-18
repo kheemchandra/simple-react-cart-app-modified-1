@@ -10,6 +10,7 @@
   align-items: center;
   padding-block: 2.5rem;
   padding: 1.3rem 9vw;
+  z-index: 500;
 }
 
 .header h1{
