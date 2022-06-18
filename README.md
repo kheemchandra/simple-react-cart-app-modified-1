@@ -1,1 +1,1 @@
-# simple-react-cart-app-modified-
+# simple react cart app
