@@ -1,0 +1,25 @@
+.section{ 
+  background: var(--background-color);
+  color: white; 
+  padding: 1.5rem 2rem;
+  width: 90vw;
+  max-width: 70rem;  
+  text-align: center;
+  position: relative;
+  top: -14rem;
+  margin-bottom: -14rem;
+}
+
+.section h1{
+  font-size: 3.2rem;
+  margin: .5rem auto 3rem;
+}
+
+.description{
+  font-size: 1.6rem; 
+}
+
+.description p{
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}

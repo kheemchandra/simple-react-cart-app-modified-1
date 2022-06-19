@@ -1,0 +1,13 @@
+.meal-list{ 
+  background: white;
+  margin: 3.5rem auto;
+  width: 90vw;
+  max-width: 96rem;
+  padding: 3rem 3rem;
+}
+
+.meal-list ul{  
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
