@@ -1,5 +1,7 @@
 import React from "react";
 
+import Input from "../../UI/Input/Input";
+
 import classes from "./MealItem.module.css";
 
 const MealItem = (props) => {
@@ -13,11 +15,7 @@ const MealItem = (props) => {
         </div>
       </div>
       <form>
-        <div>
-          <label>Amount</label>
-          <input type="number" />
-        </div>
-        <button>+ Add</button>
+        <Input />
       </form>
     </li>
   );
