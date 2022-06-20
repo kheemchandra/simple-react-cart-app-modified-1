@@ -28,7 +28,7 @@ const DUMMY_MEALS = [
     id: "i4",
     name: "Green Bowl",
     description: "Healthy...and green...",
-    price: 16.5,
+    price: 18.99,
   },
 ];
 
@@ -36,10 +36,7 @@ const MealList = (props) => {
   let content = DUMMY_MEALS.map((item) => (
     <MealItem
       key={item.id}
-      id={item.id}
-      name={item.name}
-      description={item.description}
-      price={item.price}
+      item={item}
     />
   ));
   return (

@@ -1,5 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 
+import CartContext from "../../../store/cart-context";
 import CartItem from "./CartItem"; 
 
 import classes from "./CartList.module.css";
@@ -36,13 +37,15 @@ const DUMMY_MEALS1 = [
 ];
 
 const CartList = (props) => {
-  let content = DUMMY_MEALS.map((item) => (
+  const CartCtx = useContext(CartContext);
+  const cart = CartCtx.cart; 
+  let content = cart.items.map((item) => (
     <CartItem
       key={item.id}
       id={item.id}
       name={item.name}
       price={item.price}
-      amount="1"
+      amount={item.amount}
     />
   ));
 
@@ -53,7 +56,7 @@ const CartList = (props) => {
     <div className={classes.process}>
       <div className={classes.total}>
         <span>Total Amount</span>
-        <span>$18.99</span>
+        <span>${cart.cost}</span>
       </div>
       <div className={classes.actions}>
         <button className={`${classes.button} ${classes['button--close']}`}>Close</button>

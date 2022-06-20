@@ -1,15 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import classes from './Input.module.css';
+import classes from "./Input.module.css";
 
-const Input = props => {
-  return <div className={classes.input}>
-    <div className={classes['form-controls']}>
-      <label htmlFor='input'>Amount</label>
-      <input id='input' type='number' min='1' max='5' step='1' />
+const Input = React.forwardRef((props, ref) => {
+  return (
+    <div className={classes.input}>
+      <div className={classes["form-controls"]}>
+        <label htmlFor={props.input.id}>{props.label}</label>
+        <input ref={ref} {...props.input} />
+      </div>
+      <button className={classes.button}>+ Add</button>
     </div>
-    <button className={classes.button}>+ Add</button>
-  </div>
-};
+  );
+});
 
 export default Input;
