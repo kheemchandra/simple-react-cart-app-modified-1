@@ -59,7 +59,7 @@ const CartList = (props) => {
         <span>${cart.cost}</span>
       </div>
       <div className={classes.actions}>
-        <button className={`${classes.button} ${classes['button--close']}`}>Close</button>
+        <button onClick={props.onRemoveCart} className={`${classes.button} ${classes['button--close']}`}>Close</button>
         <button className={`${classes.button} ${classes['button--order']}`}>Order</button>
       </div>
     </div>
