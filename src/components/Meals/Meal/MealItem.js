@@ -12,8 +12,9 @@ const MealItem = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    let amount = inputRef.current.value; 
-    CartCtx.addItem({...item, amount: amount});
+    let amount = inputRef.current.value.trim(); 
+    if(+amount >5 || +amount < 1)return; 
+    CartCtx.addItem({...item, amount: +amount});
   };
 
   return (

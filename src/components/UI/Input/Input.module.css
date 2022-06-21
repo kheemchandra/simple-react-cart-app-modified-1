@@ -37,6 +37,6 @@
 }
 
 .button:hover, 
-.button:focus{
+.button:active{
   background: var(--third-color);
 }

@@ -50,7 +50,7 @@
 }
 
 .actions button:hover,
-.actions button:focus{
+.actions button:active{
   color: white;
   background: var(--second-color);
 }

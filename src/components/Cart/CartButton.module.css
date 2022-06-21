@@ -13,7 +13,7 @@
 }
 
 .button:hover,
-.button:focus{
+.button:active{
   background: var(--fourth-color);
 }
 
@@ -29,6 +29,25 @@
 }
 
 .button:hover .total,
-.button:focus .total{
+.button:active .total{
   background: var(--first-color);
+}
+
+.bump{
+  animation: vibration 350ms ease-in-out forwards;
+}
+
+@keyframes vibration {
+  0%{
+    transform: scale(1);
+  }
+  33%{
+    transform: scale(.9);
+  }
+  66%{
+    transform: scale(1.2);
+  }
+  100%{
+    transform: scale(1);
+  }
 }

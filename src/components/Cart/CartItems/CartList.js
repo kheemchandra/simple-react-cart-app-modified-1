@@ -39,6 +39,15 @@ const DUMMY_MEALS1 = [
 const CartList = (props) => {
   const CartCtx = useContext(CartContext);
   const cart = CartCtx.cart; 
+  let cost = Math.abs(cart.cost).toFixed(2); 
+  const decreaseItemHandler = (id) => {
+    CartCtx.removeItem(id);
+  }
+  
+  const increaseItemHandler = (item) => {
+    CartCtx.addItem({...item, amount: 1});
+  }
+
   let content = cart.items.map((item) => (
     <CartItem
       key={item.id}
@@ -46,6 +55,8 @@ const CartList = (props) => {
       name={item.name}
       price={item.price}
       amount={item.amount}
+      onDecrease={decreaseItemHandler.bind(null, item.id)}
+      onIncrease={increaseItemHandler.bind(null, item)}
     />
   ));
 
@@ -56,11 +67,11 @@ const CartList = (props) => {
     <div className={classes.process}>
       <div className={classes.total}>
         <span>Total Amount</span>
-        <span>${cart.cost}</span>
+        <span>${cost}</span>
       </div>
       <div className={classes.actions}>
         <button onClick={props.onRemoveCart} className={`${classes.button} ${classes['button--close']}`}>Close</button>
-        <button className={`${classes.button} ${classes['button--order']}`}>Order</button>
+        {cost !== '0.00' && <button className={`${classes.button} ${classes['button--order']}`}>Order</button>}
       </div>
     </div>
   </Fragment>
