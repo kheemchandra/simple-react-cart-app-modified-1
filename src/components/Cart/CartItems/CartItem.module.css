@@ -39,13 +39,18 @@
   margin-left: 6rem;
 }
 
+.actions{
+  display: flex;
+  gap: 1rem;
+}
+
 .actions button{
   font-size: 2.2rem; 
   border: 1px solid var(--second-color);
   border-radius: .5rem;
-  padding: .3rem 1.7rem;
-  color: var(--second-color);
-  margin-left: 1rem;
+  padding: 0 1.5rem;
+  color: var(--second-color); 
+  background: white;
   cursor: pointer;
 }
 
@@ -53,4 +58,10 @@
 .actions button:active{
   color: white;
   background: var(--second-color);
+}
+
+@media (max-width: 768px){
+  .actions{
+    flex-direction: column;
+  }
 }

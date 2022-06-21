@@ -48,3 +48,9 @@
   border-color: var(--third-color);
   background: var(--third-color);
 }
+
+@media (max-width: 768px) {
+  .cart-list{
+    
+  }
+}

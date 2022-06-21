@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import CartContext from "../../store/cart-context";
 import CartIcon from "./CartIcon";
@@ -7,13 +7,12 @@ import classes from "./CartButton.module.css";
 
 const CartButton = (props) => {
   const [cls, setCls] = useState(classes["button"]);
-  const CartCtx = useContext(CartContext);
-  const firstTime = useRef(true);
+  const CartCtx = useContext(CartContext); 
 
   useEffect(() => {
     let timer = null;
-    if (firstTime.current) {
-      firstTime.current = false; 
+    if (CartCtx.cart.items.length === 0) {
+      return;
     } else { 
       setCls(`${classes["button"]} ${classes["bump"]}`);
       timer = setInterval(() => {

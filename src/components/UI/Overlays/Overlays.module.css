@@ -17,6 +17,7 @@
   z-index: 10000;
   box-shadow: none;
   width: 64rem;
+  max-width: 90vw;
   padding: 1.5rem;
   animation: slideDown 500ms ease forwards;
 }
