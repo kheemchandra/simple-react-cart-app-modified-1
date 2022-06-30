@@ -40,7 +40,7 @@ const CartList = (props) => {
       </div>
       <div className={classes.actions}>
         <button onClick={props.onRemoveCart} className={`${classes.button} ${classes['button--close']}`}>Close</button>
-        {cost !== '0.00' && <button onClick={()=>{console.log('Ordering...');}} className={`${classes.button} ${classes['button--order']}`}>Order</button>}
+        {cost !== '0.00' && <button onClick={props.onOrder} className={`${classes.button} ${classes['button--order']}`}>Order</button>}
       </div>
     </div>
   </Fragment>

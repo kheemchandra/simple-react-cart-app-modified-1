@@ -22,7 +22,7 @@ const CartButton = (props) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [CartCtx.cart.cost]);
+  }, [CartCtx.cart]);
 
   let totalAmount = CartCtx.cart.items.reduce(
     (prevNum, item) => prevNum + item.amount,

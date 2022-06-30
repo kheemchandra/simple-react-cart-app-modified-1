@@ -1,9 +1,69 @@
+import useInput from "../../hooks/use-Input";
 import classes from "./Checkout.module.css";
 
-const Checkout = () => {
+const Checkout = (props) => {
+  const {
+    value: name,
+    hasError: nameHasError,
+    isValid: nameIsValid,
+    changeValueHandler: changeNameHandler,
+    blurValueHandler: blurNameHandler,
+    reset: resetName,
+  } = useInput((name) => name.trim() !== "");
+
+  const {
+    value: address,
+    hasError: addressHasError,
+    isValid: addressIsValid,
+    changeValueHandler: changeAddressHandler,
+    blurValueHandler: blurAddressHandler,
+    reset: resetAddress,
+  } = useInput((address) => address.trim() !== "");
+
+  const nameInputClass = nameHasError ? `${classes.input} ${classes.invalid}` : `${classes.input}`;
+  const addressInputClass = addressHasError ? `${classes.input} ${classes.invalid}` : `${classes.input}`;
+
+  const formIsValid = nameIsValid && addressIsValid;
+
+
+  const checkout = async (name, address) => {
+    try {
+      const response = await fetch(
+        "https://food-order-894c5-default-rtdb.firebaseio.com/customers.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: name, address: address }),
+        }
+      );
+      const result = await response.json();
+      console.log("Order is successfully placed.");
+      console.log("Your customer id is ", result.name);
+      setTimeout(() => {
+        window.location = window.location.origin;
+      }, 1500);
+    } catch (e) {
+      console.log("Error occur during fetching data");
+    }
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    if (!formIsValid) return;
+
+    checkout(name, address);
+    resetName();
+    resetAddress();
+  };
+
+  
   return (
-    <form className={classes["form"]}>
+    <form onSubmit={submitHandler} className={classes["form"]}>
       <svg
+        onClick={props.onCancelOrder}
         className={classes["svg"]}
         width="20px"
         xmlns="http://www.w3.org/2000/svg"
@@ -13,14 +73,26 @@ const Checkout = () => {
       </svg>
 
       <div className={classes["form-control"]}>
-        <label>Your Name</label>
-        <input />
+        <label htmlFor="name">Your Name</label>
+        <input className={nameInputClass}
+          id="name"
+          value={name}
+          onChange={changeNameHandler}
+          onBlur={blurNameHandler}
+        />
+        {nameHasError && <p className={classes['error-text']}>Please Enter a valid name.</p>}
       </div>
       <div className={classes["form-control"]}>
-        <label>Your Address</label>
-        <input />
+        <label htmlFor="address">Your Address</label>
+        <input className={addressInputClass}
+          id="address"
+          value={address}
+          onChange={changeAddressHandler}
+          onBlur={blurAddressHandler}
+        />
+        {addressHasError && <p className={classes['error-text']}>Please Enter a valid address.</p>}
       </div>
-      <button>Checkout</button>
+      <button disabled={!formIsValid}>Checkout</button>
     </form>
   );
 };

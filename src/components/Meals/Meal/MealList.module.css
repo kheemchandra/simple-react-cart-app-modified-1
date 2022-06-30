@@ -3,14 +3,35 @@
   margin: 3.5rem auto;
   width: 90vw;
   max-width: 96rem;
-  padding: 3rem 3rem;
-  animation: slideUp 1s ease-in-out forwards;
+  padding: 3rem;
+  animation: slideUp 1s ease-in-out forwards; 
 }
 
 .meal-list ul{  
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.meal-list > h1{
+  text-align: center;
+  font-size: 3rem;
+}
+  
+.meal-list > button{  
+  display: block;
+  margin: 0 auto;
+  padding: 2rem 3rem;
+  border: none;
+  border-radius: 3rem;
+  background-color: var(--first-color);
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.meal-list > button:hover{
+  background-color: var(--second-color);
 }
 
 @keyframes slideUp {

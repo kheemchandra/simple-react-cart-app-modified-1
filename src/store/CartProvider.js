@@ -25,7 +25,7 @@ const cartReducer = (state, action) => {
     let cartItemIndex = state.items.findIndex(item => item.id === action.id);
     let cartItem = state.items[cartItemIndex];
     updatedState.cost -= cartItem.price;
-    if(cartItem.amount == 1){    
+    if(cartItem.amount === 1){    
       let updatedItems = updatedState.items.filter(item => item.id !== action.id);
       updatedState.items = updatedItems;
     }else{

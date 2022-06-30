@@ -1,47 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Card from "../../UI/Card/Card";
 import MealItem from "./MealItem";
 
 import classes from "./MealList.module.css";
 
-const DUMMY_MEALS = [
-  {
-    id: "i1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "i2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "i3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "i4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
+let mealList = null; 
 
 const MealList = (props) => {
-  let content = DUMMY_MEALS.map((item) => (
-    <MealItem
-      key={item.id}
-      item={item}
-    />
-  ));
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null); 
+
+  const fetchMeals  = async () => {
+    setIsLoading(true);
+    setError(null);
+    try{
+      const response = await fetch("https://food-order-894c5-default-rtdb.firebaseio.com/meals.json");
+      const MEALS = await response.json();      
+
+      mealList = <ul>{MEALS.map(item => { 
+        return <MealItem  key={item.id} item={item}/>
+      })}</ul>;
+      
+      setError(false);
+    }catch(e){      
+      setError(true);
+      console.log(e.message || 'An error occurred while fetching data')
+    }
+    
+    setIsLoading(false);
+  };
+
+  useState(() => {
+      fetchMeals();
+  }, []);
+
+  let content = null;
+
+  if(isLoading){
+    content = <h1>Loading...</h1>
+  }
+  if(error){
+    content = <button onClick={fetchMeals}>Please reload the page.</button>
+  }
+  if(!isLoading && !error){
+    content = mealList;
+  }
+  
+  
   return (
     <Card className={classes["meal-list"]}>
-      <ul>{content}</ul>
+      {content}
     </Card>
   );
 };
