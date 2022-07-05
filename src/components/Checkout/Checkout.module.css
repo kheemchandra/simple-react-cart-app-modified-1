@@ -108,3 +108,9 @@
 .form button:disabled:hover{ 
   cursor: not-allowed;
 }
+
+.failed-checkout{
+  text-align: center;
+  font-size: 2rem;
+  color: red;
+}

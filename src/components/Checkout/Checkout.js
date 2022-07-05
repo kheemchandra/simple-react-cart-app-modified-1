@@ -1,7 +1,17 @@
+import { useEffect } from "react";
+import { Spinner } from "spin.js"; 
+
 import useInput from "../../hooks/use-Input";
+import { useHttp } from "../../hooks/use-http";
+
 import classes from "./Checkout.module.css";
 
+let target = document.getElementById('spinner');
+let spinner = new Spinner().spin();
+
 const Checkout = (props) => {
+  const { isLoading, error, sendRequests: checkout } = useHttp();
+
   const {
     value: name,
     hasError: nameHasError,
@@ -20,33 +30,21 @@ const Checkout = (props) => {
     reset: resetAddress,
   } = useInput((address) => address.trim() !== "");
 
-  const nameInputClass = nameHasError ? `${classes.input} ${classes.invalid}` : `${classes.input}`;
-  const addressInputClass = addressHasError ? `${classes.input} ${classes.invalid}` : `${classes.input}`;
+  const nameInputClass = nameHasError
+    ? `${classes.input} ${classes.invalid}`
+    : `${classes.input}`;
+  const addressInputClass = addressHasError
+    ? `${classes.input} ${classes.invalid}`
+    : `${classes.input}`;
 
   const formIsValid = nameIsValid && addressIsValid;
 
-
-  const checkout = async (name, address) => {
-    try {
-      const response = await fetch(
-        "https://food-order-894c5-default-rtdb.firebaseio.com/customers.json",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name: name, address: address }),
-        }
-      );
-      const result = await response.json();
-      console.log("Order is successfully placed.");
-      console.log("Your customer id is ", result.name);
-      setTimeout(() => {
-        window.location = window.location.origin;
-      }, 1500);
-    } catch (e) {
-      console.log("Error occur during fetching data");
-    }
+  const callback = (applyData) => {
+    console.log("Order is successfully placed.");
+    console.log("Your customer id is ", applyData.name);
+    setTimeout(() => {
+      window.location = window.location.origin;
+    }, 1000);
   };
 
   const submitHandler = (event) => {
@@ -54,14 +52,34 @@ const Checkout = (props) => {
 
     if (!formIsValid) return;
 
-    checkout(name, address);
+    checkout(
+      {
+        URL: "https://food-order-894c5-default-rtdb.firebaseio.com/customers.json",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: { name: name, address: address },
+      },
+      callback
+    );
     resetName();
     resetAddress();
   };
+ 
+  useEffect(() => {
+    if(isLoading){
+      target.style.display = 'block';
+      spinner.spin();
+      target.appendChild(spinner.el); 
+    }else{
+      target.style.display = 'none';
+      spinner.stop(); 
 
-  
-  return (
+    }
+  }, [isLoading]);
+
+  return ( 
     <form onSubmit={submitHandler} className={classes["form"]}>
+      {error && <p className={classes['failed-checkout']}>Please try again!!!</p>}
       <svg
         onClick={props.onCancelOrder}
         className={classes["svg"]}
@@ -74,23 +92,29 @@ const Checkout = (props) => {
 
       <div className={classes["form-control"]}>
         <label htmlFor="name">Your Name</label>
-        <input className={nameInputClass}
+        <input
+          className={nameInputClass}
           id="name"
           value={name}
           onChange={changeNameHandler}
           onBlur={blurNameHandler}
         />
-        {nameHasError && <p className={classes['error-text']}>Please Enter a valid name.</p>}
+        {nameHasError && (
+          <p className={classes["error-text"]}>Please Enter a valid name.</p>
+        )}
       </div>
       <div className={classes["form-control"]}>
         <label htmlFor="address">Your Address</label>
-        <input className={addressInputClass}
+        <input
+          className={addressInputClass}
           id="address"
           value={address}
           onChange={changeAddressHandler}
           onBlur={blurAddressHandler}
         />
-        {addressHasError && <p className={classes['error-text']}>Please Enter a valid address.</p>}
+        {addressHasError && (
+          <p className={classes["error-text"]}>Please Enter a valid address.</p>
+        )}
       </div>
       <button disabled={!formIsValid}>Checkout</button>
     </form>
