@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import Card from "../Card/Card";
 import CartList from "../../Cart/CartItems/CartList";
 import Checkout from "../../Checkout/Checkout";
-import classes from "./Overlays.module.css";
+import classes from "./Overlays.module.css"; 
 
 const Backdrop = (props) => {
   return <div onClick={props.onClick} className={classes.backdrop}></div>;
@@ -13,7 +13,7 @@ const Backdrop = (props) => {
 const Modal = (props) => {
   return (
     <Card className={classes.modal}>
-      <CartList onOrder={props.onOrder} onRemoveCart={props.onRemoveCart} />
+      <CartList onOrder={props.onOrder} onClose={props.onClose} />
     </Card>
   );
 };
@@ -35,8 +35,8 @@ const Overlays = (props) => {
     ReactDOM.createPortal(
       <Fragment >
         <Backdrop onClick={props.onRemoveCart} />
-        {!hasOrdered && <Modal onOrder={orderHandler} onRemoveCart={props.onRemoveCart} />}
-        {hasOrdered && <Checkout onCancelOrder={cancelOrderHandler} />}
+        {!hasOrdered && <Modal onOrder={orderHandler} onClose={props.onRemoveCart} />}
+        {hasOrdered && <Checkout onCancelOrder={cancelOrderHandler} onClose={props.onRemoveCart}/>} 
       </Fragment>, portalEl)
   );
 };
