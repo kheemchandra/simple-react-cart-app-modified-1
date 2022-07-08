@@ -1,6 +1,9 @@
 import useInput from "../../hooks/use-Input";
 import classes from "./CheckoutForm.module.css";
 
+const notEmpty = value => value.trim() !== '';
+const isFiveChars = value => value.trim().length === 5;
+
 const CheckoutForm = (props) => {
 
   const {
@@ -10,42 +13,68 @@ const CheckoutForm = (props) => {
     changeValueHandler: changeNameHandler,
     blurValueHandler: blurNameHandler,
     reset: resetName,
-  } = useInput((name) => name.trim() !== "");
+  } = useInput(notEmpty);
 
   const {
-    value: address,
-    hasError: addressHasError,
-    isValid: addressIsValid,
-    changeValueHandler: changeAddressHandler,
-    blurValueHandler: blurAddressHandler,
-    reset: resetAddress,
-  } = useInput((address) => address.trim() !== "");
+    value: street,
+    hasError: streetHasError,
+    isValid: streetIsValid,
+    changeValueHandler: changeStreetHandler,
+    blurValueHandler: blurStreetHandler,
+    reset: resetStreet,
+  } = useInput(notEmpty);
+
+  const {
+    value: postalCode,
+    hasError: postalCodeHasError,
+    isValid: postalCodeIsValid,
+    changeValueHandler: changePostalCodeHandler,
+    blurValueHandler: blurPostalCodeHandler,
+    reset: resetPostalCode,
+  } = useInput(isFiveChars);
+
+  const {
+    value: city,
+    hasError: cityHasError,
+    isValid: cityIsValid,
+    changeValueHandler: changeCityHandler,
+    blurValueHandler: blurCityHandler,
+    reset: resetCity,
+  } = useInput(notEmpty);
 
   const nameInputClass = nameHasError
     ? `${classes.input} ${classes.invalid}`
     : `${classes.input}`;
-  const addressInputClass = addressHasError
+  const streetInputClass = streetHasError
+    ? `${classes.input} ${classes.invalid}`
+    : `${classes.input}`;
+    const postalCodeInputClass = postalCodeHasError
+    ? `${classes.input} ${classes.invalid}`
+    : `${classes.input}`;
+  const cityInputClass = cityHasError
     ? `${classes.input} ${classes.invalid}`
     : `${classes.input}`;
 
-  const formIsValid = nameIsValid && addressIsValid;
+  const formIsValid = nameIsValid && streetIsValid && postalCodeIsValid && cityIsValid;
 
   const submitHandler = (event) => {
     event.preventDefault();
 
     if (!formIsValid) return;
 
-    props.onSubmit({name, address});
+    props.onSubmit({name, street, postalCode, city});
 
     
     resetName();
-    resetAddress();
+    resetStreet();
+    resetPostalCode();
+    resetCity();
   };
 
   return (
     <form onSubmit={submitHandler} className={classes["form"]}>
       <svg
-        onClick={props.onCancelOrder}
+        onClick={props.onCancelCheckout}
         className={classes["svg"]}
         width="20px"
         xmlns="http://www.w3.org/2000/svg"
@@ -64,20 +93,46 @@ const CheckoutForm = (props) => {
           onBlur={blurNameHandler}
         />
         {nameHasError && (
-          <p className={classes["error-text"]}>Please Enter a valid name.</p>
+          <p className={classes["error-text"]}>Please Enter a valid name!</p>
+        )} 
+      </div>
+      <div className={classes["form-control"]}>
+        <label htmlFor="street">Street</label>
+        <input
+          className={streetInputClass}
+          id="street"
+          value={street}
+          onChange={changeStreetHandler}
+          onBlur={blurStreetHandler}
+        />
+        {streetHasError && (
+          <p className={classes["error-text"]}>Please Enter a valid street!</p>
+        )}
+      </div> 
+      <div className={classes["form-control"]}>
+        <label htmlFor="postalCode">Postal Code</label>
+        <input
+          className={postalCodeInputClass}
+          id="postalCode"
+          value={postalCode}
+          onChange={changePostalCodeHandler}
+          onBlur={blurPostalCodeHandler}
+        />
+        {postalCodeHasError && (
+          <p className={classes["error-text"]}>Please enter a valid postal code (5 characters long)!</p>
         )}
       </div>
       <div className={classes["form-control"]}>
-        <label htmlFor="address">Your Address</label>
+        <label htmlFor="city">City</label>
         <input
-          className={addressInputClass}
-          id="address"
-          value={address}
-          onChange={changeAddressHandler}
-          onBlur={blurAddressHandler}
+          className={cityInputClass}
+          id="city"
+          value={city}
+          onChange={changeCityHandler}
+          onBlur={blurCityHandler}
         />
-        {addressHasError && (
-          <p className={classes["error-text"]}>Please Enter a valid address.</p>
+        {cityHasError && (
+          <p className={classes["error-text"]}>Please Enter a valid city!</p>
         )}
       </div>
       <button disabled={!formIsValid}>Checkout</button>

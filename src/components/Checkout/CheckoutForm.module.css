@@ -1,12 +1,12 @@
-.form{
-  padding: 50px 15px 20px;  
+.form{ 
+  padding: 50px 20px 20px;  
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  width: 70vw;
-  max-width: 400px;
-  border-radius: 5px;
+  gap: 15px;
+  width: 400px; 
+  border-radius: 15px;
   background-color: white; 
+  position: relative;
 }
 
 .svg{ 
@@ -25,7 +25,7 @@
 
 .form-control{
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
 }
 
 .form-control label{

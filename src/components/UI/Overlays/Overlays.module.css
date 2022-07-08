@@ -6,29 +6,27 @@
   height: 100vh; 
   background-color: rgba(0, 0, 0, .6); 
   z-index: 1000;
+
+  display: flex;
+  flex-direction: row;  
+  align-items: center;
+  justify-content: space-evenly;
+
+  gap: 3rem;
+  padding: 3rem; 
 }
 
 .modal{ 
-  background: white;
-  position: fixed;
-  top: 20vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10000;
+  background: white; 
   box-shadow: none;
-  width: 64rem;
-  max-width: 90vw;
+  width: 64rem; 
   padding: 1.5rem;
-  animation: slideDown 500ms ease forwards;
+  margin-block: auto; 
 }
 
-@keyframes slideDown {
-  from{
-    top: 10vh;
-    opacity: 0;
-  }
-  to{
-    top: 20vh;
-    opacity: 1;
+
+@media (max-width: 850px){ 
+  .modal--{
+    display: none; 
   }
 }

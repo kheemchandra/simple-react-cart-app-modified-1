@@ -23,12 +23,13 @@ const Checkout = (props) => {
   };
 
   const submitDataHandler = (userData) => {
+    props.onOrdered();
     checkout(
       {
-        URL: "https://food-order-894c5-default-rtdb.firebaseio.com/customers.json",
+        URL: "https://food-order-894c5-default-rtdb.firebaseio.com/orders.json",
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: { ...userData },
+        body: { user: {...userData}, orderItems: CartCtx.cart.items},
       },
       callback
     );
@@ -48,8 +49,8 @@ const Checkout = (props) => {
   const message = didSubmitted || error;
 
   return (
-    <div className={classes.checkout}>
-      {!message && <CheckoutForm onCancelOrder={props.onCancelOrder} onSubmit={submitDataHandler}/>}
+    <div onClick={(event) => {event.stopPropagation()}}>
+      {!message && <CheckoutForm onCancelCheckout={props.onCancelCheckout} onSubmit={submitDataHandler}/>}
       {message && (
         <div className={`${classes.message} ${error ? classes.failure : classes.success}`}>
           {error && (

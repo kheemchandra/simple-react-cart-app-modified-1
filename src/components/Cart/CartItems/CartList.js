@@ -39,10 +39,10 @@ const CartList = (props) => {
       <span>Total Amount</span>
       <span>${cost}</span>
     </div>
-    <div className={classes.actions}>
+    {!props.hasCheckedOut && <div className={classes.actions}>
       <button onClick={props.onClose} className={`${classes.button} ${classes['button--close']}`}>Close</button>
-      {cost !== '0.00' && <button onClick={props.onOrder} className={`${classes.button} ${classes['button--order']}`}>Order</button>}
-    </div>
+      {cost !== '0.00' && <button onClick={props.onCheckout} className={`${classes.button} ${classes['button--order']}`}>Order</button>}
+    </div>}
   </div>
 </Fragment>
 };

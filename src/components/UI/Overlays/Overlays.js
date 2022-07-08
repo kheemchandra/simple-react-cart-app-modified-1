@@ -7,13 +7,13 @@ import Checkout from "../../Checkout/Checkout";
 import classes from "./Overlays.module.css"; 
 
 const Backdrop = (props) => {
-  return <div onClick={props.onClick} className={classes.backdrop}></div>;
+  return <div onClick={props.onClick} className={classes.backdrop}>{props.children}</div>;
 };
 
 const Modal = (props) => {
   return (
-    <Card className={classes.modal}>
-      <CartList onOrder={props.onOrder} onClose={props.onClose} />
+    <Card className={props.className}>
+      <CartList onCheckout={props.onCheckout} onClose={props.onClose} hasCheckedOut={props.hasCheckedOut}/>
     </Card>
   );
 };
@@ -21,22 +21,30 @@ const Modal = (props) => {
 let portalEl = document.getElementById("overlays");
 
 const Overlays = (props) => {
+  const [hasCheckedOut, setHasCheckedOut] = useState(false);
   const [hasOrdered, setHasOrdered] = useState(false);
 
-  const orderHandler = () => {
-    setHasOrdered(true);
+  const checkoutHandler = () => {
+    setHasCheckedOut(true);
   };
 
-  const cancelOrderHandler = () => {
-    setHasOrdered(false);
+  const cancelCheckoutHandler = () => {
+    setHasCheckedOut(false);
+  };
+
+  const orderHandler = () => {
+
+    setHasOrdered(true);
   };
 
   return (
     ReactDOM.createPortal(
       <Fragment >
-        <Backdrop onClick={props.onRemoveCart} />
-        {!hasOrdered && <Modal onOrder={orderHandler} onClose={props.onRemoveCart} />}
-        {hasOrdered && <Checkout onCancelOrder={cancelOrderHandler} onClose={props.onRemoveCart}/>} 
+        <Backdrop onClick={props.onRemoveCart} > 
+        {(!hasCheckedOut && !hasOrdered) && <Modal className={classes['modal']} onCheckout={checkoutHandler} onClose={props.onRemoveCart} />}
+        {(hasCheckedOut && !hasOrdered) && <Modal className={`${classes['modal']} ${classes['modal--']}`} onCheckout={checkoutHandler} onClose={props.onRemoveCart} hasCheckedOut={hasCheckedOut}/>}
+        {(hasCheckedOut || hasOrdered) && <Checkout onCancelCheckout={cancelCheckoutHandler} onClose={props.onRemoveCart} onOrdered={orderHandler}/>} 
+        </Backdrop>
       </Fragment>, portalEl)
   );
 };
